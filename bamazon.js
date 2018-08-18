@@ -1,6 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-var b = "=====";
+var b = " ===== ";
 var query = "SELECT * FROM items";
 
 var connection = mysql.createConnection({
@@ -51,7 +51,7 @@ function whichItem() {
         phowMany = parseInt(resp.howMany);
         pchoice = parseInt(resp.choice); 
 
-        console.log(b + " Purchasing: " + results[pchoice].product_name + " \n" + b); 
+        console.log(b + " Purchasing: " + results[pchoice].product_name + b + " \n" + b + " Qty: " + phowMany + b); 
 
         if (pchoice > results.length) {
             console.log(b + "\nThat is not a valid ID Number\n" + b); 

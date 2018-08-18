@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/hippiestyle/bamazon.git"
   },
-  "author": "",
+  "author": "Marshall Johnston",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/hippiestyle/bamazon/issues"
@@ -19,5 +19,9 @@
   "dependencies": {
     "inquirer": "^6.1.0",
     "mysql": "^2.16.0"
-  }
+  },
+  "devDependencies": {},
+  "keywords": [
+    "bamazonManager"
+  ]
 }
