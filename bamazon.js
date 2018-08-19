@@ -38,21 +38,50 @@ function whichItem() {
         {
             type: "input",
             name: "choice",
-            message: "\nWhich item would you like to buy?",
+            message: "\nWhich item would you like to buy, by ID?",
+            validate: function (input) {
+                // Declare function as asynchronous, and save the done callback
+                var done = this.async();
+                // Do async stuff
+                setTimeout(function() {
+                if (isNaN(input)){
+                    done("You neeed to enter a valid ID number")
+                    return; 
+                }
+               else if (input > results.length){
+                    done("You need to provide a proper ID number")
+                    return;
+                  }
+                  // Pass the return value in the done callback
+                  done(null, true);
+                }, 200);
+              }
             
         },
         {   type: "input",
             name: "howMany",
             message: "\nHow many would you like to buy?",
+            validate: function (input) {
+ 
+                var done = this.async();
+
+                setTimeout(function() {
+                if (isNaN(input)){
+                    done("You neeed to enter a valid ID number")
+                    return; 
+                } done(null, true);
+                }, 200);
+              }
           
         }
 
     ]).then(function(resp) {
         phowMany = parseInt(resp.howMany);
-        pchoice = parseInt(resp.choice)+1; 
+        pchoice = parseInt(resp.choice); 
+        console.log("pchoice:  " + pchoice); 
 
         console.log(b + " Purchasing: " + results[pchoice].product_name + b + " \n" + b + " Qty: " + phowMany + b); 
-
+        
         if (pchoice > results.length) {
             console.log(b + "\nThat is not a valid ID Number\n" + b); 
             setTimeout(whichItem, 2000)
