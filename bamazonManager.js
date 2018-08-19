@@ -4,6 +4,7 @@ var b = " ===== ";
 var querySelect = "SELECT * FROM items";
 var queryUpdate = "UPDATE items SET ? WHERE ?"
 var queryInv = "SELECT * FROM items WHERE qty BETWEEN 0 AND 5"
+var queryInsert = "INSERT INTO items VALUES (?"
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -18,11 +19,12 @@ connection.connect(function(err) {
     if (err) throw (err)
 })
 function runPrompt() {
+    console.log("\n")
 inquirer.prompt([
     {
         type: "list",
         name: "theList", 
-        message: "What Would You Like to Do?",
+        message: "Main Menu",
         choices: ["List Products For Sale", "View Low Inventory", "Add New Inventory", "Add New Product"]
     }
 ]).then(function(resp){
@@ -30,15 +32,14 @@ inquirer.prompt([
         console.log("\nListing Products For Sale...\n"); 
         setTimeout(productsForSale, 1000); 
     } else if (resp.theList === "View Low Inventory") {
-        console.log("\nSearching for items with low quantity...\n")
+        console.log("\nSearching for items with low inventory...\n")
         setTimeout(lowInventory, 1000); 
     } else if(resp.theList === "Add New Inventory") {
-        // console.log("\nThis functionality is not ready yet\n");
-        addInventory(); 
-        // setTimeout(runPrompt, 1000); 
+        console.log("\nAdding Inventory\n");
+        setTimeout(addProduct, 1000); 
     } else { 
-        console.log("\nThis functionality is not ready yet\n");
-        setTimeout(runPrompt, 1000); 
+        console.log("\nAdding New Item\n");
+        setTimeout(newInventory, 1000); 
     }
 
 }) // end of then statement
@@ -53,6 +54,7 @@ function productsForSale() {
 
             console.log("ID: " + res[i].id + " " + res[i].product_name + " $" + res[i].price + " Qty: " + res[i].qty)
         }
+    setTimeout(runPrompt, 1000)
     });
 };
 //done
@@ -65,10 +67,12 @@ function lowInventory() {
             console.log("ID: " + res[i].id + " " + res[i].product_name + " $" + res[i].price + " Qty: " + res[i].qty)
         }
     })
+    setTimeout(runPrompt, 1000)
 }
 
-function addInventory() {
+function addProduct() {
     connection.query(querySelect, function(err,res){
+        if (err) throw (err)
     inquirer.prompt([
         {
             type: "rawlist", 
@@ -99,18 +103,18 @@ function addInventory() {
         console.log("chosen one " + chosenOne.id);
         console.log("added inv: " + addedInv);
 
-        addProduct(addedInv, chosenOne); 
+        addInventory(addedInv, chosenOne); 
         
     })
     
 }); //end of connection.query 
 } //end of addInventory function 
 
-function addProduct(inventory, location) {
+function addInventory(inventory, location) {
     connection.query(queryUpdate, 
     [
         {
-            qty: parseInt(inventory)
+            qty: location.qty + inventory
         },
         {
             id: location.id
@@ -118,11 +122,58 @@ function addProduct(inventory, location) {
     ],
     function(err){
         if (err) throw (err)
-        console.log("You changed the inventory!"); 
+        console.log("You changed the inventory! Now at QTY: "); 
 
+    })
+    setTimeout(runPrompt, 1000)
+}
+
+function newInventory() { 
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "addProd",
+            message: "What is the product name that you would like to add?"
+        },
+        {
+            type: "input",
+            name: "addDept",
+            message: "What department does it belong to?",
+        },
+        {
+            type: "input",
+            name: "addCost",
+            message: "Enter cost per unit"
+        },
+        {
+            type: "input",
+            name: "addQty",
+            message: "Enter quanity"
+        }
+    ]).then(function(resp){
+        var newItem = resp.addProd; 
+        var dept = resp.addDept;
+        var unitCost = parseInt(resp.addCost); 
+        var unitQty = parseInt(resp.addQty); 
+
+        addNew(newItem, dept, unitCost, unitQty)
     })
 }
 
-
+function addNew(newItem, dept, unitCost, unitQty) {
+    connection.query("INSERT INTO items SET ?",
+    [
+        {
+            product_name: newItem,
+            department_name: dept,
+            price: unitCost,
+            qty: unitQty
+        }
+    ], function(err){
+        if (err) throw (err)
+        console.log("\nsuccesfully inserted item");
+    })
+    setTimeout(runPrompt, 1000)
+}
 
 runPrompt(); 
