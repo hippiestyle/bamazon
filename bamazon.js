@@ -20,9 +20,9 @@ connection.connect(function(err) {
 function listItems() { 
     connection.query(query, function(err,res) {
         if (err) throw (err); 
-
+        console.log("\nWelcome to Bamazon - What would you like to buy?\n")
         for (var i = 0; i < res.length; i++) {
-            console.log("ID: " + res[i].id + " " + res[i].product_name + " $" + res[i].price + " Qty: " + res[i].qty)
+            console.log("ID: " + res[i].id + "    " + res[i].product_name + "   $" + res[i].price + "   Qty: " + res[i].qty); 
         };
         whichItem(); 
      
@@ -78,7 +78,6 @@ function whichItem() {
     ]).then(function(resp) {
         phowMany = parseInt(resp.howMany);
         pchoice = parseInt(resp.choice); 
-        console.log("results[pchoice].product_name:  " + JSON.stringify(results)); 
 
         console.log(b + " Purchasing: " + results[pchoice].product_name + b + " \n" + b + " Qty: " + phowMany + b); 
         
@@ -93,16 +92,19 @@ function whichItem() {
             [
             {
                 //is a string, need it to be 
-                qty: (results[pchoice].qty - phowMany)
+                qty: (results[pchoice].qty - phowMany),
+                product_sales: results[pchoice].product_sales + (phowMany * results[pchoice].price)
             },
             {
                 id: pchoice
             } 
+             
             ],
             function(err) {
                 if (err) throw (err)
-                console.log("\nYour purchase has been made\n");
-                console.log("Total Cost: $" +  results[pchoice].price * phowMany);
+                console.log(b + "Total Cost: $" +  results[pchoice].price * phowMany + b);
+                console.log("\nYour purchase has been made!\n");
+                setTimeout(listItems, 1000);
             });
         
         };

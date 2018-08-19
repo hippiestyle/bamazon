@@ -2,9 +2,9 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 var b = " ===== ";
 var querySelect = "SELECT * FROM items";
-var queryUpdate = "UPDATE items SET ? WHERE ?"
-var queryInv = "SELECT * FROM items WHERE qty BETWEEN 0 AND 5"
-var queryInsert = "INSERT INTO items VALUES (?"
+var queryUpdate = "UPDATE items SET ? WHERE ?";
+var queryInv = "SELECT * FROM items WHERE qty BETWEEN 0 AND 5";
+
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -35,7 +35,7 @@ inquirer.prompt([
         console.log("\nSearching for items with low inventory...\n")
         setTimeout(lowInventory, 1000); 
     } else if(resp.theList === "Add New Inventory") {
-        console.log("\nAdding Inventory\n");
+        console.log("\nAdding Inventory...\n");
         setTimeout(addProduct, 1000); 
     } else { 
         console.log("\nAdding New Item\n");
@@ -137,6 +137,11 @@ function addInventory(inventory, location) {
 }
 
 function newInventory() { 
+    connection.query("SELECT * FROM departments", function(err, resp){
+        var departments = ["Create New Department"]; 
+        for (var i = 0; i < resp.length; i++) {
+            departments.push(resp[i].dept_name); 
+        }
     inquirer.prompt([
         {
             type: "input",
@@ -151,16 +156,18 @@ function newInventory() {
             }
         },
         {
-            type: "input",
+            type: "list",
             name: "addDept",
             message: "What department does it belong to?", 
-            validate: function(input){ 
-                var done = this.async();
-                if(!isNaN(input)) {
-                    done("You must enter a valid department name")
-                    return;
-                } done(null,true);
+            choices: departments,
+            validate: function(input) {
+                var done = this.async(); 
+                if (input === "Create New Department"){
+                    done("\nPlease login as Supervisor to add new department\n")
+                    return; 
+                }done(null, true); 
             }
+
         },
         {
             type: "input",
@@ -194,6 +201,7 @@ function newInventory() {
 
         addNew(newItem, dept, unitCost, unitQty)
     })
+})// end of connection.query
 }
 
 function addNew(newItem, dept, unitCost, unitQty) {
