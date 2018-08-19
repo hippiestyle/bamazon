@@ -49,7 +49,7 @@ function whichItem() {
 
     ]).then(function(resp) {
         phowMany = parseInt(resp.howMany);
-        pchoice = parseInt(resp.choice); 
+        pchoice = parseInt(resp.choice)+1; 
 
         console.log(b + " Purchasing: " + results[pchoice].product_name + b + " \n" + b + " Qty: " + phowMany + b); 
 
@@ -67,12 +67,13 @@ function whichItem() {
                 qty: (results[pchoice].qty - phowMany)
             },
             {
-                id: resp.choice
+                id: pchoice
             } 
             ],
             function(err) {
                 if (err) throw (err)
                 console.log("\nYour purchase has been made\n");
+                console.log("Total Cost: $" +  results[pchoice].price * phowMany);
             });
         
         };
