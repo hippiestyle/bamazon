@@ -1,6 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-var b = " ===== ";
+var b = "\n=====================\n";
 var query = "SELECT * FROM items";
 
 var connection = mysql.createConnection({
@@ -78,15 +78,15 @@ function whichItem() {
     ]).then(function(resp) {
         phowMany = parseInt(resp.howMany);
         pchoice = parseInt(resp.choice); 
-        console.log("pchoice:  " + pchoice); 
+        console.log("results[pchoice].product_name:  " + JSON.stringify(results)); 
 
         console.log(b + " Purchasing: " + results[pchoice].product_name + b + " \n" + b + " Qty: " + phowMany + b); 
         
         if (pchoice > results.length) {
             console.log(b + "\nThat is not a valid ID Number\n" + b); 
             setTimeout(whichItem, 2000)
-        }  else if (phowMany >= results[pchoice].qty) {
-            console.log("Insufficient Quantity")
+        }  else if (phowMany > results[pchoice].qty) {
+            console.log("Insufficient quantity, check back soon")
             setTimeout(whichItem, 2000)
         } else {
             connection.query("UPDATE items SET ? WHERE ? ", 

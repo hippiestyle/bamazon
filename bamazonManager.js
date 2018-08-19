@@ -61,11 +61,14 @@ function productsForSale() {
 function lowInventory() { 
     connection.query(queryInv, function (err,res){
         if (err) throw (err)
-
+        if (res.length === 0) {
+            console.log("\nYou have no items with low inventory\n")
+        } else {
         for (var i = 0; i < res.length; i++) {
 
             console.log("ID: " + res[i].id + " " + res[i].product_name + " $" + res[i].price + " Qty: " + res[i].qty)
         }
+    }
     })
     setTimeout(runPrompt, 1000)
 }
@@ -75,7 +78,7 @@ function addProduct() {
         if (err) throw (err)
     inquirer.prompt([
         {
-            type: "rawlist", 
+            type: "list", 
             name: "addInv",
             message: "What item do you want to add inventory to?",
             choices: function(){
@@ -89,7 +92,14 @@ function addProduct() {
         {
             type: "input",
             name: "amountInv",
-            message: "How much inventory would you like to add?"
+            message: "How much inventory would you like to add?",
+            validate: function(input){ 
+                var done = this.async();
+                if(isNaN(input)) {
+                    done("You must enter a valid quantity of inventory")
+                    return;
+                } done(null,true);
+            }
         }
     ]).then(function(response){
         var addedInv = parseInt(response.amountInv); 
@@ -100,8 +110,6 @@ function addProduct() {
                 chosenOne = res[i]; 
             }
         }
-        console.log("chosen one " + chosenOne.id);
-        console.log("added inv: " + addedInv);
 
         addInventory(addedInv, chosenOne); 
         
@@ -122,7 +130,7 @@ function addInventory(inventory, location) {
     ],
     function(err){
         if (err) throw (err)
-        console.log("You changed the inventory! Now at QTY: "); 
+        console.log("You changed the inventory! Quantity is now at: " + (location.qty + inventory)); 
 
     })
     setTimeout(runPrompt, 1000)
@@ -133,27 +141,55 @@ function newInventory() {
         {
             type: "input",
             name: "addProd",
-            message: "What is the product name that you would like to add?"
+            message: "What is the product name that you would like to add?",
+            validate: function(input){ 
+                var done = this.async();
+                if(!isNaN(input)) {
+                    done("You must enter a valid product name")
+                    return;
+                } done(null,true);
+            }
         },
         {
             type: "input",
             name: "addDept",
-            message: "What department does it belong to?",
+            message: "What department does it belong to?", 
+            validate: function(input){ 
+                var done = this.async();
+                if(!isNaN(input)) {
+                    done("You must enter a valid department name")
+                    return;
+                } done(null,true);
+            }
         },
         {
             type: "input",
             name: "addCost",
-            message: "Enter cost per unit"
+            message: "Enter cost per unit",
+            validate: function(input){ 
+                var done = this.async();
+                if(isNaN(input)) {
+                    done("You must enter a valid cost per unit, no need for the $ sign")
+                    return;
+                } done(null,true);
+            }
         },
         {
             type: "input",
             name: "addQty",
-            message: "Enter quanity"
+            message: "Enter quantity",
+            validate: function(input){ 
+                var done = this.async();
+                if(isNaN(input)) {
+                    done("You must enter a valid quantity")
+                    return;
+                } done(null,true);
+            }
         }
     ]).then(function(resp){
-        var newItem = resp.addProd; 
-        var dept = resp.addDept;
-        var unitCost = parseInt(resp.addCost); 
+        var newItem = resp.addProd.trim(); 
+        var dept = resp.addDept.trim();
+        var unitCost = parseFloat(resp.addCost); 
         var unitQty = parseInt(resp.addQty); 
 
         addNew(newItem, dept, unitCost, unitQty)
@@ -171,7 +207,7 @@ function addNew(newItem, dept, unitCost, unitQty) {
         }
     ], function(err){
         if (err) throw (err)
-        console.log("\nsuccesfully inserted item");
+        console.log("\nItem Successfully Inserted!");
     })
     setTimeout(runPrompt, 1000)
 }
