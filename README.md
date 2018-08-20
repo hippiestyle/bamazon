@@ -11,8 +11,7 @@ Here is a walkthrough of the working Bamazon app:
 
 [![Bamazon](/bamazon_screenshot.jpg)](https://www.youtube.com/watch?v=qDCLZ4Z8oWQ "Bamazon App")
 =======
-[![Bamazon](/bamazon_screenshot.png)](https://www.youtube.com/watch?v=qDCLZ4Z8oWQ "Bamazon App")
->>>>>>> 47be98df54ee2f37093fa4afd79441a7c32bd262
+
 
 There are three different apps here, they are separate because there is no authentication as to the user, so I have left them separate. 
 
