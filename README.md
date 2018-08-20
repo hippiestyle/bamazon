@@ -6,8 +6,9 @@ The purpose of this app was to spend some time focusing on node.js, express and 
 
 Click on the image below for a full walkthrough: 
 
-<<<<<<< HEAD
+
 Here is a walkthrough of the working Bamazon app: 
+
 [![Bamazon](/bamazon_screenshot.jpg)](https://www.youtube.com/watch?v=qDCLZ4Z8oWQ "Bamazon App")
 =======
 [![Bamazon](/bamazon_screenshot.png)](https://www.youtube.com/watch?v=qDCLZ4Z8oWQ "Bamazon App")
