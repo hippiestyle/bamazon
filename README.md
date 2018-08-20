@@ -2,7 +2,7 @@
 Fake amazon store to work with mySQL database
 
 Here is a walkthrough of the working Bamazon app: 
-[![Bamazon](/bamazon_screenshot.png)](https://www.youtube.com/watch?v=qDCLZ4Z8oWQ "Bamazon App")
+[![Bamazon](/bamazon_screenshot.jpg)](https://www.youtube.com/watch?v=qDCLZ4Z8oWQ "Bamazon App")
 
 There are three different apps here, they are separate because there is no authentication as to the user, so I have left them separate. 
 
