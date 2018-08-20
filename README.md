@@ -3,13 +3,13 @@ Fake amazon store to work with mySQL database
 
 Here is a walkthrough of the working Bamazon app: 
 
-CLICK ON THE LINK BELOW TO SEE FULL WALKTHROUGH: 
+Click on the image below for a full walkthrough: 
 
 [![Bamazon](/bamazon_screenshot.png)](https://www.youtube.com/watch?v=qDCLZ4Z8oWQ "Bamazon App")
 
 There are three different apps here, they are separate because there is no authentication as to the user, so I have left them separate. 
 
-BAMAZON PURCHASER (bamazon.js)
+# BAMAZON PURCHASER (bamazon.js)
 
 The customer of Bamazon would use this app to purchase and item by ID and quantity. Very straight forward, once loaded, the customer is immediately prompted with a purchashing option. 
 
@@ -19,7 +19,7 @@ Same thing goes for the quantity amount.
 
 If you try to purchase more items than are currently available, you will be told there is an "insufficient quantity".
 
-BAMAZON MANAGER (bamazonManager.js)
+# BAMAZON MANAGER (bamazonManager.js)
 
 View Products: 
 This option will simply print out all available items for sale in the database. It will be updated immediatelry so any changes to the database will result in new data every time this gets printed out.
@@ -49,7 +49,7 @@ There are 4 user inputs:
 
 Logout: You can logout of the Manager app by clicking on the Logout button, this will end the loop of prompts. 
 
-BAMAZON SUPERVISOR (bamazonSupervisor.js)
+# BAMAZON SUPERVISOR (bamazonSupervisor.js)
 
 There are two things you can do as a Supervisor. 
 
