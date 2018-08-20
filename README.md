@@ -68,7 +68,9 @@ There are 4 user inputs:
 Logout: You can logout of the Manager app by clicking on the Logout button, this will end the loop of prompts. 
 
 ## BAMAZON SUPERVISOR (bamazonSupervisor.js)
-
+```
+node bamazonSupervisor.js
+```
 There are two things you can do as a Supervisor. 
 
 1. Look at the profitability of a department by pulling the report with "View Product Sales by Department" and 
