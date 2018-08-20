@@ -1,12 +1,28 @@
-# bamazon
-Fake amazon store to work with mySQL database
+# Bamazon App
+Purpose: 
 
+The purpose of this app was to spend some time focusing on node.js, express and sql. 
+
+
+Click on the image below for a full walkthrough: 
+
+<<<<<<< HEAD
 Here is a walkthrough of the working Bamazon app: 
 [![Bamazon](/bamazon_screenshot.jpg)](https://www.youtube.com/watch?v=qDCLZ4Z8oWQ "Bamazon App")
+=======
+[![Bamazon](/bamazon_screenshot.png)](https://www.youtube.com/watch?v=qDCLZ4Z8oWQ "Bamazon App")
+>>>>>>> 47be98df54ee2f37093fa4afd79441a7c32bd262
 
 There are three different apps here, they are separate because there is no authentication as to the user, so I have left them separate. 
 
-BAMAZON PURCHASER (bamazon.js)
+Prequisites: 
+
+Since this is a CLI, you will need to start each section from the command line. 
+
+## BAMAZON PURCHASER (bamazon.js)
+```
+node bamazon.js
+```
 
 The customer of Bamazon would use this app to purchase and item by ID and quantity. Very straight forward, once loaded, the customer is immediately prompted with a purchashing option. 
 
@@ -16,27 +32,32 @@ Same thing goes for the quantity amount.
 
 If you try to purchase more items than are currently available, you will be told there is an "insufficient quantity".
 
-BAMAZON MANAGER (bamazonManager.js)
+## BAMAZON MANAGER (bamazonManager.js)
+``` 
+node bamazonManager.js
+```
 
-View Products: 
+### View Products: 
 This option will simply print out all available items for sale in the database. It will be updated immediatelry so any changes to the database will result in new data every time this gets printed out.
 
 There are no inputs for this function. 
 
-View Low Inventory: Viewing low inventory provides data on all items in the database that have a quantity of 5 or less. 
+### View Low Inventory: 
+Viewing low inventory provides data on all items in the database that have a quantity of 5 or less. 
 
 If you update the inventory with the function below you will notice that this item will be updated as well.
 
 There are no inputs for this function. 
 
-Add New Inventory: 
+### Add New Inventory: 
 This function allows the user to input new inventory to the database. The quantity that you input will be added to the existing inventory. 
 
 There are two user inputs: 
 1. What product do you want to add inventory to? 
 2. How much inventory would you like to add?
 
-Add New Product: This function will add a new product to the database. You can then add further inventory it by using the "add new inventory" function. 
+### Add New Product: 
+This function will add a new product to the database. You can then add further inventory it by using the "add new inventory" function. 
 
 There are 4 user inputs: 
 1. What is the name of the product? (you can only enter in a string, if you enter integers, you will be reprompted to enter information again.)
@@ -46,7 +67,7 @@ There are 4 user inputs:
 
 Logout: You can logout of the Manager app by clicking on the Logout button, this will end the loop of prompts. 
 
-BAMAZON SUPERVISOR (bamazonSupervisor.js)
+## BAMAZON SUPERVISOR (bamazonSupervisor.js)
 
 There are two things you can do as a Supervisor. 
 
