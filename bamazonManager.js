@@ -1,6 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-var b = " ===== ";
+var Table = require("cli-table"); 
 var querySelect = "SELECT * FROM items";
 var queryUpdate = "UPDATE items SET ? WHERE ?";
 var queryInv = "SELECT * FROM items WHERE qty BETWEEN 0 AND 5";
@@ -25,7 +25,7 @@ inquirer.prompt([
         type: "list",
         name: "theList", 
         message: "Main Menu",
-        choices: ["List Products For Sale", "View Low Inventory", "Add New Inventory", "Add New Product"]
+        choices: ["List Products For Sale", "View Low Inventory", "Add New Inventory", "Add New Product", "Logout"]
     }
 ]).then(function(resp){
     if (resp.theList === "List Products For Sale") {
@@ -37,9 +37,12 @@ inquirer.prompt([
     } else if(resp.theList === "Add New Inventory") {
         console.log("\nAdding Inventory...\n");
         setTimeout(addProduct, 1000); 
-    } else { 
+    } else if (resp.theList === "Add New Product") { 
         console.log("\nAdding New Item\n");
         setTimeout(newInventory, 1000); 
+    } else {
+        console.log("\n Good Bye\n")
+        process.exit(); 
     }
 
 }) // end of then statement
@@ -51,10 +54,11 @@ function productsForSale() {
         if (err) throw (err); 
 
         for (var i = 0; i < res.length; i++) {
-
-            console.log("ID: " + res[i].id + " " + res[i].product_name + " $" + res[i].price + " Qty: " + res[i].qty)
+                console.log("ID: " + res[i].id + " " + res[i].product_name + " $" + res[i].price + " Qty: " + res[i].qty)   
         }
+
     setTimeout(runPrompt, 1000)
+
     });
 };
 //done
@@ -65,7 +69,6 @@ function lowInventory() {
             console.log("\nYou have no items with low inventory\n")
         } else {
         for (var i = 0; i < res.length; i++) {
-
             console.log("ID: " + res[i].id + " " + res[i].product_name + " $" + res[i].price + " Qty: " + res[i].qty)
         }
     }
@@ -221,3 +224,6 @@ function addNew(newItem, dept, unitCost, unitQty) {
 }
 
 runPrompt(); 
+
+
+

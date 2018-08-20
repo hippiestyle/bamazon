@@ -3,7 +3,7 @@ var inquirer = require("inquirer");
 var Table = require("cli-table");
 var table = new Table({
     head: ['Department ID', 'Department Name', 'Overhead Costs', 'Product Sales', 'Total Profit']
-  , colWidths: [20, 20, 20, 20, 20]
+  , colWidths: [5, 20, 20, 20, 20]
 });
 var tableQuery = "SELECT departments.dept_id, departments.dept_name, departments.overhead_costs, SUM(items.product_sales) AS productsSold FROM items LEFT JOIN departments ON items.department_name = departments.dept_name GROUP BY dept_name, dept_id, overhead_costs;"
 var queryUpdate = "INSERT INTO departments SET ?";
@@ -31,14 +31,16 @@ function supervisor() {
             type: "list",
             name: "task",
             message: "What would you like to do?",
-            choices: ["View Product Sales by Department", "Create New Department"]
+            choices: ["View Product Sales by Department", "Create New Department", "Logout"]
         }
     ]).then(function(resp){
 
         if (resp.task === "View Product Sales by Department" ) {
             salesByDept(res); 
-        } else {
+        } else if (resp.task === "Create New Department") {
             createNewDept(res); 
+        } else {
+            process.exit(); 
         }
         
     })
@@ -47,13 +49,14 @@ function supervisor() {
 supervisor(); 
 
 function salesByDept(res) {
-    for (var i = 0; i < res.length; i++) {
+    for (var i = 0; i < res.length-1; i++) {
 
         table.push(
-            [res[i].dept_id, res[i].dept_name, "$"+res[i].overhead_costs.toFixed(2), "$"+res[i].productsSold.toFixed(2), "$"+(res[i].productsSold - res[i].overhead_costs).toFixed(2)]
+            [res[i].dept_id, res[i].dept_name, "$"+res[i].overhead_costs, "$"+res[i].productsSold, "$"+(res[i].productsSold - res[i].overhead_costs)]
         );
     }
     console.log(table.toString()); 
+    setTimeout(supervisor, 3000); 
 }
 
 function createNewDept() {
@@ -92,6 +95,7 @@ function createNewDept() {
             ],function(err){
                 if (err) throw (err)
                 console.log("\nDepartment Updated Successfully\n")
+                setTimeout(supervisor, 2000)
             
         })
     })

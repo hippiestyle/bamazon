@@ -23,8 +23,9 @@ function listItems() {
         console.log("\nWelcome to Bamazon - What would you like to buy?\n")
         for (var i = 0; i < res.length; i++) {
             console.log("ID: " + res[i].id + "    " + res[i].product_name + "   $" + res[i].price + "   Qty: " + res[i].qty); 
+            console.log("----------------------------------------------------------------")
         };
-        whichItem(); 
+        whichItem();  
      
     })
 }
@@ -104,7 +105,7 @@ function whichItem() {
                 if (err) throw (err)
                 console.log(b + "Total Cost: $" +  results[pchoice].price * phowMany + b);
                 console.log("\nYour purchase has been made!\n");
-                setTimeout(listItems, 1000);
+                setTimeout(listItems, 3000);
             });
         
         };
